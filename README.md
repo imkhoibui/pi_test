@@ -16,3 +16,6 @@ Designate a port on your localhost:
 
 To run the app, make sure you know where's the data (and the format):
 `python3 app.py --data_path <path_name>`
+
+
+### References
