@@ -121,4 +121,9 @@ if __name__ == "__main__":
 
     # data_path = 'data/Set_1_D4_Mock_EpiAir_vs_Set_1_D2_Mock_EpiAir_DESeq_results.xlsx'
     app = run_app(args.data_path)
+
+    with open("dash_app.html", "w") as f:
+        f.write(app.index_string)
     app.run_server(debug=True, port=8050)
+
+    
