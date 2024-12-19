@@ -1,0 +1,31 @@
+.H2{
+    display: flex;
+    justify-content: center;
+}
+
+.plot-block{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.volcano-graph{
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+.filter-block{
+    flex: 1;
+    flex-direction: column;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+.filter-item{
+    padding: 10px;
+}
