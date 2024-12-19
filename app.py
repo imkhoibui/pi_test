@@ -35,20 +35,20 @@ def layout(df):
                             value=['downregulated', 'upregulated']
                         )
                     ]),
-                    html.Div(
-                        className='filter-item',
-                        children=[
-                        'Select the top number of most differentially expressed genes',
-                        html.Br(),
-                        dcc.Slider(
-                            id='volcano-input',
-                            min=0,
-                            max=30,
-                            step=5,
-                            marks={i: {'label': str(i)} for i in range(5, 31, 5)},
-                            value=5
-                        ),
-                    ]),
+                    # html.Div(
+                    #     className='filter-item',
+                    #     children=[
+                    #     'Select the top number of most differentially expressed genes',
+                    #     html.Br(),
+                    #     dcc.Slider(
+                    #         id='volcano-input',
+                    #         min=0,
+                    #         max=30,
+                    #         step=5,
+                    #         marks={i: {'label': str(i)} for i in range(5, 31, 5)},
+                    #         value=5
+                    #     ),
+                    # ]),
                     html.Div(
                         className='filter-item',
                         children=[
@@ -105,11 +105,6 @@ def callbacks(_app, df):
         else:
             return explanation()
         
-    # @_app.callback(
-    #     Output(''),
-    #     Input('volcano-input', )
-    # )
-
 def run_app(data_path):
     df = pd.read_excel(data_path)
     df = cal_genes(df)
