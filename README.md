@@ -7,7 +7,7 @@ different tissues, treatments, or disease states.
 The Volcano plot on the left demonstrates two DEGs, Downregulated gene PHACTR3 and upregulated gene CXCL5. 
 The remaining genes show no significance between two samples, indicated by its padj and l2fc values.
 
-![DEG plot](data/plot.png)
+![DEG plot](results/plot.png)
 
 Looking at the padj in the data, we can see that only the first three genes have adj values lesser than 1.
 This might be that the raw p-values are not significantly small enough, combining with the fact that there
