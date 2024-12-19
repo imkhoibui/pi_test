@@ -30,6 +30,8 @@ run_app:
 	mv pages_files/_dash-dependencies pages_files/_dash-dependencies.json
 	mv assets/* pages_files/assets/
 
+	ps | grep python | awk '{print $$1}' | xargs kill -9	
+
 clean_dirs:
 	ls
 	rm -rf 127.0.0.1:8050/
