@@ -1,0 +1,31 @@
+.header-block{
+    display: flex;
+    justify-content: center;
+}
+
+.plot-block{
+    display: flex;
+    justify-content: space-evenly;
+    align-items: flex-start;
+}
+
+.volcano-graph{
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+.filter-block{
+    flex: 1;
+    flex-direction: column;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding-top: 120px;
+}
+
+.filter-item{
+    padding: 10px;
+}
