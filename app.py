@@ -19,23 +19,6 @@ def layout(df):
                 dcc.Graph(
                     className='volcano-graph',
                     id='volcano-graph',
-                    figure=dashbio.VolcanoPlot(
-                        dataframe=df,
-                        effect_size='log2FoldChange',
-                        p='pvalue',
-                        snp='padj',
-                        gene='Gene Name',
-                        annotation='DEG',
-                        highlight_color='#119DFF',
-                        width=600,
-                        height=800,
-                        xlabel='Log2(Fold Change)',
-                        ylabel='-Log10(PValue)',
-                        title='DEG between D2 and D4 Mock EpiAir',
-                        title_font=set_style(),
-                        xaxis=set_style(),
-                        yaxis=set_style()
-                    )
                 ),
                 html.Div(
                     className='filter-block',
@@ -47,8 +30,9 @@ def layout(df):
                         html.Br(),
                         dcc.Checklist(
                             id='hl-select',
-                            options=['Upregulated', 'Downregulated'],
-                            value=['Upregulated', 'Downregulated']
+                            options=[{'label' : 'Upregulated', 'value' : 'upregulated'},
+                                      {'label' : 'Downregulated', 'value' : 'downregulated'}],
+                            value=['downregulated', 'upregulated']
                         )
                     ]),
                     html.Div(
@@ -56,13 +40,13 @@ def layout(df):
                         children=[
                         'Select the top number of most differentially expressed genes',
                         html.Br(),
-                        dcc.RangeSlider(
+                        dcc.Slider(
                             id='volcano-input',
                             min=0,
-                            max=50,
+                            max=30,
                             step=5,
-                            marks={i: {'label': str(i)} for i in range(5, 51, 5)},
-                            value=[0,5]
+                            marks={i: {'label': str(i)} for i in range(5, 31, 5)},
+                            value=5
                         ),
                     ]),
                     html.Div(
@@ -84,15 +68,15 @@ def layout(df):
 def callbacks(_app, df):
     @_app.callback(
         Output('volcano-graph', 'figure'),
-        [Input('volcano-input', 'value'),
-         Input('hl-select', 'value')]
+        [Input('hl-select', 'value')]
     )
 
-    def update_hlgenes(hl_range, hl_select):
-        min_r, max_r = hl_range
-        hl_genes = []
-        for mode in hl_select:
-            hl_genes += df[df['DEG'] == mode]['Gene Name'].to_list()
+    def update_hlgenes(hl_select):
+        palette = {'downregulated' : 'blue',
+                   'upregulated' : 'red',
+                   'insignificant' : 'grey'}
+        df['color'] = df['DEG'].apply(lambda x: palette(x) if x in hl_select else 'grey')
+        
         return dashbio.VolcanoPlot(
             dataframe=df,
             effect_size='log2FoldChange',
@@ -100,16 +84,12 @@ def callbacks(_app, df):
             snp='padj',
             gene='Gene Name',
             annotation='DEG',
-            highlight=hl_genes,
-            highlight_color='#119DFF',
+            col=df['DEG'].apply(lambda x: palette(x) if x in hl_select else 'grey'),
             width=600,
             height=800,
             xlabel='Log2(Fold Change)',
             ylabel='-Log10(PValue)',
             title='DEG between D2 and D4 Mock EpiAir',
-            title_font=set_style(),
-            xaxis=set_style(),
-            yaxis=set_style()
         )
 
     @_app.callback(
@@ -124,6 +104,11 @@ def callbacks(_app, df):
             return results()
         else:
             return explanation()
+        
+    # @_app.callback(
+    #     Output(''),
+    #     Input('volcano-input', )
+    # )
 
 def run_app(data_path):
     df = pd.read_excel(data_path)

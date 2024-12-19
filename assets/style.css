@@ -6,7 +6,7 @@
 .plot-block{
     display: flex;
     justify-content: space-around;
-    align-items: center;
+    align-items: flex-start;
 }
 
 .volcano-graph{
@@ -23,7 +23,7 @@
     display: flex;
     justify-content: center;
     align-items: flex-start;
-    padding-top: 40px;
+    padding-top: 120px;
 }
 
 .filter-item{
