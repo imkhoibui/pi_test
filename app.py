@@ -109,7 +109,7 @@ def run_app(data_path):
     df = pd.read_excel(data_path)
     df = cal_genes(df)
 
-    app = Dash(__name__)
+    app = Dash(__name__, requests_pathname_prefix='/pi_test/')
     app.layout = layout(df)
     callbacks(app, df)
     return app
