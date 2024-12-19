@@ -13,3 +13,6 @@ To install related packages:
 Next, create simple Dash app with VolcanoPlot, the tutorial can be found here.
 Designate a port on your localhost:
 `app.run_server(debug=True, port=8050)`
+
+To run the app, make sure you know where's the data (and the format):
+`python3 app.py --data_path <path_name>`

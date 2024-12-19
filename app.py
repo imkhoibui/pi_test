@@ -7,10 +7,12 @@ import argparse
 import os
 
 from helper import *
+from content import *
 
 def layout(df):
     return html.Div([
-        html.H2('Differentially expressed genes visualization'),
+        html.H2(className='header-block',
+                children='Differentially expressed genes visualization'),
         html.Div(
             className='plot-block',
             children=[
@@ -29,7 +31,10 @@ def layout(df):
                         height=800,
                         xlabel='Log2(Fold Change)',
                         ylabel='-Log10(PValue)',
-                        title='DEG between D2 and D4 Mock EpiAir'
+                        title='DEG between D2 and D4 Mock EpiAir',
+                        title_font=set_style(),
+                        xaxis=set_style(),
+                        yaxis=set_style()
                     )
                 ),
                 html.Div(
@@ -60,6 +65,17 @@ def layout(df):
                             value=[0,5]
                         ),
                     ]),
+                    html.Div(
+                        className='filter-item',
+                        children=[
+                            dcc.Tabs(id='tab-options', value='tab-description',
+                                children=[
+                                    dcc.Tab(label='Description', value='tab-description'),
+                                    dcc.Tab(label='Results', value='tab-result'),
+                                    dcc.Tab(label='Explanation', value='tab-explanation')
+                                ]),
+                            html.Div(id='tab-content')
+                    ])
                 ]),
             ],
         ),
@@ -74,11 +90,9 @@ def callbacks(_app, df):
 
     def update_hlgenes(hl_range, hl_select):
         min_r, max_r = hl_range
-
         hl_genes = []
         for mode in hl_select:
             hl_genes += df[df['DEG'] == mode]['Gene Name'].to_list()
-
         return dashbio.VolcanoPlot(
             dataframe=df,
             effect_size='log2FoldChange',
@@ -92,9 +106,24 @@ def callbacks(_app, df):
             height=800,
             xlabel='Log2(Fold Change)',
             ylabel='-Log10(PValue)',
-            title='DEG between D2 and D4 Mock EpiAir'
+            title='DEG between D2 and D4 Mock EpiAir',
+            title_font=set_style(),
+            xaxis=set_style(),
+            yaxis=set_style()
         )
 
+    @_app.callback(
+        Output('tab-content', 'children'),
+        Input('tab-options', 'value')
+    )
+
+    def render_content(tab):
+        if tab == 'tab-description':
+            return descripiton()
+        elif tab == 'tab-result':
+            return results()
+        else:
+            return explanation()
 
 def run_app(data_path):
     df = pd.read_excel(data_path)
